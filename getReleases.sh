@@ -46,7 +46,6 @@ putBadge metrics-release metrics $(get_latest_release $METRICSURL)
 putBadge gatekeeper-release gatekeeper $(get_latest_release $GATEKEEPERURL)
 putBadge kured-release kured $(get_latest_release $KUREDURL)
 
-KUBECTLSTABLE=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
 ALPINE=$(curl -s https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases | grep -o -E 'The latest release of Alpine Linux is:.{0,20}' | cut -d \b -f 2 | head -1 | cut -c 2- | head --bytes -3)
 AKS0=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -15 | cut -d \< -f 2 | cut -c 4- | head -1)
 AKS0AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -12 | cut -d \< -f 2 | cut -c 4- | head -1 | sed "s/ //g")
@@ -55,7 +54,6 @@ AKS1AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes
 AKS2=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -5 | cut -d \< -f 2 | cut -c 4- | head -1)
 AKS2AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -2 | cut -d \< -f 2 | cut -c 4- | head -1 | sed "s/ //g")
 
-putBadge kubectlstable-release kubectl_stable $KUBECTLSTABLE
 putBadge alpine-release alpine $ALPINE
 putBadge aks0-release aks "${AKS0}_from_${AKS0AB}"
 putBadge aks1-release aks "${AKS1}_from_${AKS1AB}"
