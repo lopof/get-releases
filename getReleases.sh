@@ -47,14 +47,7 @@ putBadge gatekeeper-release gatekeeper $(get_latest_release $GATEKEEPERURL)
 putBadge kured-release kured $(get_latest_release $KUREDURL)
 
 ALPINE=$(curl -s https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases | grep -o -E 'The latest release of Alpine Linux is:.{0,20}' | cut -d \b -f 2 | head -1 | cut -c 2- | head --bytes -3)
-AKS0=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -15 | cut -d \< -f 2 | cut -c 4- | head -1)
-AKS0AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -12 | cut -d \< -f 2 | cut -c 4- | head -1 | sed "s/ //g")
-AKS1=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -10 | cut -d \< -f 2 | cut -c 4- | head -1)
-AKS1AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -7 | cut -d \< -f 2 | cut -c 4- | head -1 | sed "s/ //g")
-AKS2=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -5 | cut -d \< -f 2 | cut -c 4- | head -1)
-AKS2AB=$(curl -s https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions | grep -o -E '<td>.{0,20}' | tail -2 | cut -d \< -f 2 | cut -c 4- | head -1 | sed "s/ //g")
+AKSVER=$(az aks get-versions --location westeurope --output json | grep -A 2 '"isPreview": null' | tail -1 | sed -E 's/.*"([^"]+)".*/\1/')
 
 putBadge alpine-release alpine $ALPINE
-putBadge aks0-release aks "${AKS0}_from_${AKS0AB}"
-putBadge aks1-release aks "${AKS1}_from_${AKS1AB}"
-putBadge aks2-release aks "${AKS2}_from_${AKS2AB}" 
+putBadge aks-release aks $AKSVER
